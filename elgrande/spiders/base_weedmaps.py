@@ -3,7 +3,7 @@ import scrapy
 from elgrande.base_spider import ElGrandeBaseSpider
 from elgrande.items_weedmaps import WeedMapsDispensary
 import json
-import scraper.utils as utils
+import elgrande.utils as utils
 import elgrande.settings as settings
 
 

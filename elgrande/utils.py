@@ -43,6 +43,11 @@ def get_usa_zipcodes(state=None):
         return data
 
 
+def get_custom_zipcodes():
+    with open(settings.CUSTOM_ZIPCODES_SOURCE) as data_file:
+        data = json.load(data_file)
+    return data
+
 def build_notes(item):
     """
     Creates a custom note field based on optional fields scraped from the spider.

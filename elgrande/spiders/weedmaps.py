@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from scraper.base_spider import TapHunterBaseSpider
-from scraper.items_weedmaps import WeedMapsDispensary
-from scraper.spiders.weedmaps_base import WeedmapsBaseSpider
+from elgrande.items_weedmaps import WeedMapsDispensary
+from elgrande.spiders.base_weedmaps import WeedmapsBaseSpider
 import math
 import json
-import scraper.utils as utils
+import elgrande.utils as utils
 
 
 class WeedmapsSpider(WeedmapsBaseSpider):
@@ -15,7 +14,7 @@ class WeedmapsSpider(WeedmapsBaseSpider):
 
     custom_settings = {
         'ITEM_PIPELINES': {
-            'scraper.pipelines.TapHunterImporterPipeline': 400,
+            'elgrande.pipelines.ElGrandePipeline': 400,
         },
         # 10 second delay minimum. Default 5
         'AUTOTHROTTLE_START_DELAY': 10,

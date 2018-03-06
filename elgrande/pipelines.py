@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import settings
 import datetime
-from elgrande.items import TapHunterCloseioImporter
+from elgrande.items import ElGrandeItem
 from scrapy.exporters import CsvItemExporter
 
 
@@ -35,11 +35,14 @@ class ElGrandePipeline(object):
         if spider.is_DEBUG:
             print item
 
+        self.exporter.export_item(item)
+        return item
+
         if not spider.export_closeio:
             self.exporter.export_item(item)
             return item
 
-        closeio_item = TapHunterCloseioImporter()
+        closeio_item = ElGrandeItem()
         closeio_item['company'] = item.get('name', None)
         closeio_item['url'] = self._clean_field(item.get('url', None))
         closeio_item['phone'] = self._clean_field(item.get('phone', None))

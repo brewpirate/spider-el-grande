@@ -4,7 +4,6 @@
 #
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
-
 from scrapy import signals
 
 
@@ -51,6 +50,7 @@ class FuvkfaceSpiderMiddleware(object):
         # Must return only requests (not items).
         for r in start_requests:
             yield r
+            
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)

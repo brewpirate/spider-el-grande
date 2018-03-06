@@ -15,17 +15,24 @@ class BuildProxyList(object):
         proxy_response = requests.get(source_url)
         proxy_source = json.loads(proxy_response.content)
         proxy_list = []
+        proxy_ignore = [
+            'us370',
+            'us494',
+            'us366',
+            'us378',
+        ]
 
         for proxy in proxy_source:
-            # If load is under 60% add to the pool
-            if proxy.get('load') < 60 and proxy['feature'].get('proxy') and proxy['feature'].get('pptp') and proxy['feature'].get('proxy_ssl') and proxy['feature'].get('socks') and proxy['feature'].get('l2tp'):
+            # If load is under 30% add to the pool
+            if proxy.get('load') < 30 and proxy['feature'].get('proxy') and proxy['feature'].get('pptp') and proxy['feature'].get('proxy_ssl') and proxy['feature'].get('socks') and proxy['feature'].get('l2tp'):
                 the_proxy = {
                     'domain': proxy.get('domain'),
                     'features': proxy.get('feature'),
                     'load': proxy.get('load'),
                     'exists': proxy.get('exists')
                 }
-                proxy_list.append(the_proxy)
+                if proxy.get('short') not in proxy_ignore:
+                    proxy_list.append(the_proxy)
 
         if len(proxy_list):
             file = open(settings.PROXY_LIST, 'w')

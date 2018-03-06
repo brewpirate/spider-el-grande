@@ -39,7 +39,7 @@ ROBOTSTXT_OBEY = False
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
+COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
@@ -76,25 +76,36 @@ ROBOTSTXT_OBEY = False
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
-#AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_ENABLED = True
 # The initial download delay
-#AUTOTHROTTLE_START_DELAY = 5
+AUTOTHROTTLE_START_DELAY = 5
 # The maximum download delay to be set in case of high latencies
-#AUTOTHROTTLE_MAX_DELAY = 60
+AUTOTHROTTLE_MAX_DELAY = 60
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
-#AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
+AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 # Enable showing throttling stats for every response received:
-#AUTOTHROTTLE_DEBUG = False
+AUTOTHROTTLE_DEBUG = False
 
 # Enable and configure HTTP caching (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
-#HTTPCACHE_ENABLED = True
-#HTTPCACHE_EXPIRATION_SECS = 0
-#HTTPCACHE_DIR = 'httpcache'
-#HTTPCACHE_IGNORE_HTTP_CODES = []
-#HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+HTTPCACHE_ENABLED = True
+HTTPCACHE_EXPIRATION_SECS = 0
+HTTPCACHE_DIR = 'httpcache'
+HTTPCACHE_IGNORE_HTTP_CODES = [503, 407, 302]
+HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
+# Compress Response not headers/meta etc
+COMPRESSION_ENABLED = True
+
+
+# scrapy-fake-useragent Settings
+# https://github.com/alecxe/scrapy-fake-useragent
+# Random User-Agent middleware based on fake-useragent. It picks up User-Agent strings based on usage statistics from a real world database.
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+    'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 400,
+}
 
 # Proxy Settings
 # https://github.com/aivarsk/scrapy-proxies
@@ -116,3 +127,23 @@ RETRY_TIMES = 4
 
 # Retry on most error codes since proxies fail for different reasons
 RETRY_HTTP_CODES = [500, 504, 400, 403, 404, 408, 407]
+
+DOWNLOADER_MIDDLEWARES.update(
+    {
+        'elgrande.custom_proxy_list_middleware.BuildProxyList': 1,
+        'scrapy.downloadermiddlewares.retry.RetryMiddleware': 90,
+        'scrapy_proxies.RandomProxy': 100,
+        'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
+        'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 501,
+    }
+)
+
+# https://doc.scrapy.org/en/latest/topics/broad-crawls.html#reduce-download-timeout
+DOWNLOAD_TIMEOUT = 15
+
+# https://doc.scrapy.org/en/latest/topics/broad-crawls.html#disable-redirects
+# Need for BeerMenus crawlers
+REDIRECT_ENABLED = True
+
+# https://doc.scrapy.org/en/latest/topics/broad-crawls.html#increase-twisted-io-thread-pool-maximum-size
+REACTOR_THREADPOOL_MAXSIZE = 20

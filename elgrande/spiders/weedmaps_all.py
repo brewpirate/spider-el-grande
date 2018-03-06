@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from elgrande.spiders.weedmaps_base import WeedmapsBaseSpider
+from elgrande.spiders.base_weedmaps import WeedmapsBaseSpider
 import random
 
 
@@ -10,7 +10,7 @@ class WeedmapsAllSpider(WeedmapsBaseSpider):
 
     custom_settings = {
         'ITEM_PIPELINES': {
-            'scraper.pipelines.ElGrandeImporterPipeline': 400,
+            'elgrande.pipelines.ElGrandeImporterPipeline': 400,
         },
         # It's there or it isn't so no need to retry with Weedmaps
         'RETRY_TIMES': 1,

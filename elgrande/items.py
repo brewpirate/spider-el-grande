@@ -8,7 +8,7 @@
 import scrapy
 
 
-class FuvkfaceItem(scrapy.Item):
+class ElGrandeItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     pass
